@@ -26,12 +26,40 @@ export function verifySignature(wallet_address: string, signature: string, signa
       return false;
     }
 
-    // Recreate the message that was signed
-    const message = `${wallet_address}:${signature_data}`;
+    // Create the EIP-712 typed data
+    const typedData = {
+      types: {
+        EIP712Domain: [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          { name: "chainId", type: "uint256" },
+        ],
+        ProveScrollWalletOwnership: [
+          { name: "wallet", type: "address" },
+          { name: "timestamp", type: "uint256" },
+          { name: "statement", type: "string" },
+        ],
+      },
+      primaryType: "ProveScrollWalletOwnership",
+      domain: {
+        name: "Scroll",
+        version: "1",
+        chainId: 534351, // Scroll Sepolia testnet chain ID
+      },
+      message: {
+        wallet: wallet_address,
+        timestamp: timestamp,
+        statement: "I am proving ownership of this Scroll wallet to submit a fact to Scroll of Fans.",
+      },
+    };
 
     // Recover the address from the signature
-    const msgHash = ethers.hashMessage(message);
-    const recoveredAddress = ethers.recoverAddress(msgHash, signature);
+    const recoveredAddress = ethers.verifyTypedData(
+      typedData.domain,
+      { ProveScrollWalletOwnership: typedData.types.ProveScrollWalletOwnership },
+      typedData.message,
+      signature,
+    );
 
     // Compare the recovered address with the provided wallet address
     return recoveredAddress.toLowerCase() === wallet_address.toLowerCase();
@@ -42,7 +70,6 @@ export function verifySignature(wallet_address: string, signature: string, signa
 }
 
 export async function callChatGPT(conversation: Array<any>) {
-  
   // const response = await openai.chat.completions.create({
   //   model: "gpt-3.5-turbo",
   //   messages: conversation,
@@ -52,5 +79,4 @@ export async function callChatGPT(conversation: Array<any>) {
 
   const randomResponse = Math.random() < 0.5 ? "YES." : "NO.";
   return randomResponse;
-
 }
