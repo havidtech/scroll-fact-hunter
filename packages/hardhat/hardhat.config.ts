@@ -107,11 +107,11 @@ const config: HardhatUserConfig = {
       accounts: [deployerPrivateKey],
     },
     scrollSepolia: {
-      url: "https://sepolia-rpc.scroll.io",
+      url: `https://scroll-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
     },
     scroll: {
-      url: "https://rpc.scroll.io",
+      url: `https://scroll-mainnet.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
     },
     pgn: {
