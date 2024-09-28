@@ -5,19 +5,30 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
+import "hardhat/console.sol";
 
 
 contract ScrollOfFans is ERC721, Ownable {
 
     constructor() ERC721("Scroll of Fans", "SOF") Ownable(msg.sender) {}
 
-    function mint(uint256 tokenId, string memory signedData, bytes memory signature) external {
+    function mint(uint256 tokenId, bytes memory signature) external {
         require(_ownerOf(tokenId) == address(0), "Token already minted");
+        // Import statement moved to the top of the file
+        console.log("Minting token with ID:", tokenId);
+        console.logBytes(signature);
 
-        bytes32 messageHash = keccak256(abi.encodePacked(signedData));
+
+        console.logBytes(abi.encode(msg.sender, tokenId));
+        bytes32 messageHash = keccak256(abi.encode(msg.sender, tokenId));
         bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(messageHash);
 
+        console.logBytes32(messageHash);
+        console.logBytes32(ethSignedMessageHash);
+
         address signer = ECDSA.recover(ethSignedMessageHash, signature);
+        console.log("Recovered signer:", signer);
+        console.log("Contract owner:", owner());
         require(signer == owner(), "Invalid signature");
 
         _mint(msg.sender, tokenId);

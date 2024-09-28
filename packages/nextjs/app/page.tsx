@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 
       const data = await response.json();
 
-      if (data.response === "YES" && data.signature && data.token_id && data.signed_data) {
+      if (data.response === "YES" && data.signature && data.token_id) {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
@@ -69,7 +69,8 @@ const Home: NextPage = () => {
           await signer,
         );
 
-        const tx = await contract.mint(data.token_id, data.signed_data, data.signature);
+        console.log(data);
+        const tx = await contract.mint(data.token_id, data.signature);
         await tx.wait();
 
         setMessage("Fact submitted and NFT minted successfully!");

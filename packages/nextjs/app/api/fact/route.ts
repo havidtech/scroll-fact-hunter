@@ -84,13 +84,24 @@ export async function POST(req: NextRequest) {
     // Sign the ID of the inserted fact using personal sign
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!);
-    const messageHash = ethers.hashMessage(fact.id.toString());
-    const signature = await wallet.signMessage(ethers.getBytes(messageHash));
+    const valueHex = ethers.AbiCoder.defaultAbiCoder().encode(["address", "uint256"], [wallet_address, fact.id]);
+    console.log("Value hex:", valueHex);
+    const messageHash = ethers.getBytes(ethers.keccak256(valueHex));
 
-    return NextResponse.json(
-      { response: "YES", signature, token_id: fact.id, signed_data: fact.id.toString() },
-      { status: 200 },
-    );
+    // const ethSignedMessageHash = ethers.hashMessage(ethers.getBytes(messageHash));
+
+    console.log("Message hash:", ethers.keccak256(valueHex ));
+    // console.log("Eth signed message hash:", ethSignedMessageHash);
+    console.log("private key:", process.env.PRIVATE_KEY);
+    const signature = await wallet.signMessage(messageHash);
+
+    // Recover the address from the signature
+    const recoveredAddress = ethers.recoverAddress(ethers.hashMessage(messageHash), signature);
+
+    console.log("Recovered address:", recoveredAddress);
+    console.log("Wallet address:", wallet.address);
+
+    return NextResponse.json({ response: "YES", signature, token_id: fact.id }, { status: 200 });
   } else {
     return NextResponse.json({ response: "NO", error: "Fact not correct or unique" }, { status: 200 });
   }
