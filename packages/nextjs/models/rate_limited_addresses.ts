@@ -1,7 +1,11 @@
 import sequelize from "../config/sequelize-setup";
 import { DataTypes, Model } from "sequelize";
 
-export class RateLimitedAddresses extends Model {}
+export class RateLimitedAddresses extends Model {
+  declare wallet_address: string;
+  declare retry_at: Date;
+  declare id: number;
+}
 
 RateLimitedAddresses.init(
   {

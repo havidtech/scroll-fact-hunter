@@ -11,8 +11,8 @@ import { callChatGPT, verifyRecaptcha, verifySignature } from "~~/utils/general"
 export async function POST(req: NextRequest) {
   // return NextResponse.json({ response: "YES" }, { status: 200 });
 
-  const { wallet_address, statement, signature, signature_data, captcha_token } = await req.json();
-  if (!wallet_address || !statement || !signature || !signature_data || !captcha_token) {
+  const { wallet_address, statement, signature, timestamp, captcha_token } = await req.json();
+  if (!wallet_address || !statement || !signature || !timestamp) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
@@ -27,7 +27,10 @@ export async function POST(req: NextRequest) {
   });
 
   if (rateLimit) {
-    return NextResponse.json({ error: "Rate limited" }, { status: 429 });
+    return NextResponse.json(
+      { response: "NO", error: `Rate limited. Please try again after ${rateLimit.retry_at.toLocaleString()}` },
+      { status: 429 },
+    );
   }
 
   // 2. Assert that the Google reCAPTCHA token is valid
@@ -36,18 +39,16 @@ export async function POST(req: NextRequest) {
   //   return NextResponse.json({ error: "Invalid captcha" }, { status: 400 });
   // }
 
-  // 3. Assert that the signature actually belongs to the wallet address and the signature_data is not too old
-  const isSignatureValid = verifySignature(wallet_address, signature, signature_data);
+  // 3. Assert that the signature actually belongs to the wallet address and the timestamp is not too old
+  const isSignatureValid = verifySignature(wallet_address, signature, timestamp);
   if (!isSignatureValid) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    return NextResponse.json({ response: "NO", error: "Invalid signature" }, { status: 400 });
   }
 
   // Fetch all statements so far in DB
   const existingStatements = await Facts.findAll({
     attributes: ["statement"],
   });
-
-  console.log("existingStatements", existingStatements);
 
   const systemMessage = {
     role: "system",
@@ -91,6 +92,6 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } else {
-    return NextResponse.json({ response: "NO" }, { status: 200 });
+    return NextResponse.json({ response: "NO", error: "Fact not correct or unique" }, { status: 200 });
   }
 }
