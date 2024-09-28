@@ -44,7 +44,7 @@ export function verifySignature(wallet_address: string, signature: string, signa
       domain: {
         name: "Scroll",
         version: "1",
-        chainId: 534351, // Scroll Sepolia testnet chain ID
+        chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID), // Scroll Sepolia testnet chain ID
       },
       message: {
         wallet: wallet_address,
