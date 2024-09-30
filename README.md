@@ -33,8 +33,9 @@ Create a `.env` file in the `packages/hardhat` directory with the following cont
 
 ```
 ALCHEMY_API_KEY=<your_alchemy_api_key>
-DEPLOYER_PRIVATE_KEY=<your_deployer_private_key>
+DEPLOYER_PRIVATE_KEY=<you can copy the first private key in hardhat chain>
 SCROLL_SCAN_API_KEY=<your_scrollscan_api_key>
+DEFAULT_NETWORK=scrollSepolia
 ```
 
 ### Next.js Environment Variables
@@ -60,7 +61,7 @@ OPENAI_API_KEY=your_openai_api_key
 RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
 CHATGPT_PROJECT_ID=your_chatgpt_project_id
 CHATGPT_ORGANIZATION=your_chatgpt_organization
-PRIVATE_KEY=your_private_key
+PRIVATE_KEY=your_private_key used to sign auth needed when users mint FOS nfts
 NEXT_PUBLIC_CHAIN_ID=your_chain_id
 NEXT_PUBLIC_CAPTCHA_PROJECT_KEY=your_captcha_project_key
 ```
