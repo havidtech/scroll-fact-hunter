@@ -1,4 +1,5 @@
 # Friends of Scroll
+![image](https://github.com/user-attachments/assets/69cd21a7-6831-4049-920c-ea46dca9e990)
 
 ## Description
 Friends of Scroll is a decentralized application (dApp) that allows users to prove their knowledge about the Scroll blockchain by submitting unique facts. Users can mint NFTs as proof of their contributions, which are then displayed on a leaderboard. The project leverages Scroll smart contracts, Next.js for the frontend, and various web3 tools to create an engaging and interactive experience for blockchain enthusiasts.
