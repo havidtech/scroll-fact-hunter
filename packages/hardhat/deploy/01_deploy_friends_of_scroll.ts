@@ -2,15 +2,15 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
 /**
- * Deploys the ScrollOfFans contract using the deployer account.
+ * Deploys the FriendsOfScroll contract using the deployer account.
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const deployScrollOfFans: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployFriendsOfScroll: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("ScrollOfFans", {
+  await deploy("FriendsOfScroll", {
     from: deployer,
     args: [],
     log: true,
@@ -18,6 +18,6 @@ const deployScrollOfFans: DeployFunction = async function (hre: HardhatRuntimeEn
   });
 };
 
-export default deployScrollOfFans;
+export default deployFriendsOfScroll;
 
-deployScrollOfFans.tags = ["ScrollOfFans"];
+deployFriendsOfScroll.tags = ["FriendsOfScroll"];

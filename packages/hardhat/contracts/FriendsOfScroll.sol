@@ -6,9 +6,9 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
-contract ScrollOfFans is ERC721, Ownable {
+contract FriendsOfScroll is ERC721, Ownable {
 
-    constructor() ERC721("Scroll of Fans", "SOF") Ownable(msg.sender) {}
+    constructor() ERC721("Friends of Scroll", "FOS") Ownable(msg.sender) {}
 
     function mint(uint256 tokenId, bytes memory signature) external {
         require(_ownerOf(tokenId) == address(0), "Token already minted");
