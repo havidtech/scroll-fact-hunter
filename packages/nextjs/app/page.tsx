@@ -30,7 +30,9 @@ const Home: NextPage = () => {
 
     // Set up event listener for mint events
     const setupEventListener = async () => {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.JsonRpcProvider(
+        `https://scroll-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      );
       const chainIdString = process.env.NEXT_PUBLIC_CHAIN_ID;
       if (!chainIdString) {
         console.error("Chain ID is not defined");
