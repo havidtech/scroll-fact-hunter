@@ -48,7 +48,6 @@ const Home: NextPage = () => {
 
       console.log("Transfer filter:", transferFilter);
       const handleTransferEvent = () => {
-        alert("Transfer event detected");
         fetchFriends();
       };
 
