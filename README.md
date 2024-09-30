@@ -45,15 +45,17 @@ NEXT_PUBLIC_CHAIN_ID=your_chain_id
 
 # PostgreSQL connection details
 
+```
 POSTGRES_HOST=your_postgres_host
 POSTGRES_PORT=your_postgres_port
 POSTGRES_USER=your_postgres_user
 POSTGRES_PASSWORD=your_postgres_password
 POSTGRES_DB=your_postgres_db
-
+```
 
 # Optional
 
+```
 OPENAI_API_KEY=your_openai_api_key
 RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
 CHATGPT_PROJECT_ID=your_chatgpt_project_id
@@ -61,3 +63,4 @@ CHATGPT_ORGANIZATION=your_chatgpt_organization
 PRIVATE_KEY=your_private_key
 NEXT_PUBLIC_CHAIN_ID=your_chain_id
 NEXT_PUBLIC_CAPTCHA_PROJECT_KEY=your_captcha_project_key
+```
